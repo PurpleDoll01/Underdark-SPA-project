@@ -1,0 +1,19 @@
+.Characters {
+    display: flex;
+    justify-content: center;
+}
+
+.Container__char {
+    width: 90%;
+    background-color: #C6C5FF;
+    margin-bottom: 20px;
+    box-shadow: 2px 12px 15px -3px rgba(0,0,0,0.58);
+}
+
+.Container__char h1 {
+    margin-left: 25px;
+    color: #030627;
+    font-family: 'Odibee Sans', cursive;
+    font-weight: 300;
+    font-size: 25px;
+}
