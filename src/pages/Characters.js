@@ -6,7 +6,7 @@ import api from '../api';
 import './styles/Characters.css';
 
 function useCharacters() {
-    const [ characters, setCharacters ] = React.useState('');
+    const [ characters, setCharacters ] = React.useState({chars: []});
 
     const fetchData = async () => { 
         
