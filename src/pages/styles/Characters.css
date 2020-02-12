@@ -17,3 +17,23 @@
     font-weight: 300;
     font-size: 25px;
 }
+
+.Character__card {
+    display: flex;
+    justify-content: center;
+}
+
+.Char__list {
+    display: flex;
+    padding: 0;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 0 4%;
+}
+
+.Char__li {
+    display: block;
+    width: 250px;
+    display:flex;
+    justify-content: center;
+}
