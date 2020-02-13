@@ -3,7 +3,7 @@ const path = require('path');
 const faker = require('faker');
 const md5 = require('md5');
 
-function createBadges(limit = 50) {
+function createCharacters(limit = 50) {
   const result = [];
 
   for (let i = 0; i < limit; i++) {
@@ -15,9 +15,10 @@ function createBadges(limit = 50) {
       id: faker.random.uuid(),
       firstName,
       lastName,
-      email,
-      jobTitle: faker.name.jobTitle(),
-      twitter: `${firstName}${lastName}${faker.address.zipCode()}`,
+      race: '',
+      deity: '',
+      gender: '',
+      description: '',
       avatarUrl: `https://www.gravatar.com/avatar/${md5(email)}?d=identicon`,
     });
   }
@@ -27,7 +28,7 @@ function createBadges(limit = 50) {
 
 function main() {
   const data = {
-    badges: createBadges(),
+    characters: createCharacters(),
   };
 
   fs.writeFileSync(
