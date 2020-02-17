@@ -5,6 +5,7 @@ import Characters from './pages/Characters';
 import Layout from './components/Layout';
 import CharDetails from './pages/CharDetails';
 import CharModify from './pages/CharModify';
+import NotFound from './pages/NotFound';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
                     <Route exact path="/underdark/char" component={Characters} /> 
                     <Route exact path="/characters/:charId/" component={CharDetails} /> 
                     <Route exact path="/characters/modify/:charId" component={CharModify} /> 
+                    <Route component={NotFound} />
                 </Switch> 
             </Layout>
         </BrowserRouter>

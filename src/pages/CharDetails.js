@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useParams } from 'react-router';
 
 import Loader from '../components/Loader';
+import DeleteBadgeModal from '../components/DeleteBadgeModal';
 import './styles/CharDetails.css';
 
 import api from '../api';
 
 function useCharactersId () {
     const [ loading, setLoading ] = React.useState(true);
+    const [ isOpen, setIsOpen ] = React.useState(false);
     const [ charactersData, setCharactersData ] = React.useState({chars: []});
     let { charId } = useParams();
 
@@ -32,16 +34,38 @@ function useCharactersId () {
 
     }, []);
 
-    return { charactersData, loading }
+    return { charactersData, loading, isOpen, setIsOpen }
 
 }
 
 
-const CharDetails = () => {
-
-    const {charactersData, loading} = useCharactersId();
-
+const CharDetails = (props) => {
+    const { charId } = useParams();
+    const {charactersData, loading, isOpen, setIsOpen} = useCharactersId();
     const dataChar = charactersData.chars;
+
+    const goodId = parseInt(charId, 10);
+    
+    if(goodId !== 0 && !goodId) {
+        return <Redirect to={{ pathname: '/404'}} />
+    } 
+
+    if(!loading && !dataChar.id) {
+        return <Redirect to={{ pathname: '/404'}} />
+    }
+
+    console.log({dataChar: dataChar.id});
+
+    const handleDelete = async e => {
+        try {
+            await api.characters.remove(
+                charId               
+            )            
+            props.history.push('/underdark/char/');
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return(
         <section className="Description__section">
@@ -66,8 +90,19 @@ const CharDetails = () => {
                             </div>
                         </div> 
                         <div className="Buttons__container">
-                             <Link to={`/characters/modify/${dataChar.id}`} className="Modify__button">Modify</Link>
-                             <Link to="/" className="Delete__button">Delete</Link>
+                            <Link to={`/characters/modify/${dataChar.id}`} className="Modify__button">Modify</Link>
+                            <button className="Delete__button" 
+                                onClick={e => {
+                                    setIsOpen(true);
+                                }}
+                                >Delete</button>
+                            <DeleteBadgeModal 
+                                onCloseModal={e => {
+                                    setIsOpen(false);
+                                }}
+                                isOpen={isOpen}
+                                onDeleteChar={handleDelete}
+                            />
                         </div>                           
                     </div>
                     

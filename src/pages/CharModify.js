@@ -1,7 +1,10 @@
 import React, { useEffect} from 'react';
+import { Redirect } from 'react-router-dom';
 import { useParams } from 'react-router';
 
 import api from '../api';
+
+import './styles/CharModify.css';
 
 function useCharactersId () {
     let { charId } = useParams();
@@ -26,7 +29,7 @@ function useCharactersId () {
                 charId 
             );
             setCharactersData({chars: data});
-            setLoading(false); 
+            setLoading(false);
         } catch(error) {
             console.log(error);
         }
@@ -42,7 +45,18 @@ function useCharactersId () {
 }
 
 const CharModify = (props) => {
+    const { charId } = useParams();
     const { charactersData, loading, setCharactersData } = useCharactersId();
+
+    const goodId = parseInt(charId, 10);
+
+    if(goodId !== 0 && !goodId) {
+        return <Redirect to={{ pathname: '/404'}} />
+    } 
+
+    if(!loading && !charactersData.chars.id) {
+        return <Redirect to={{ pathname: '/404'}} />
+    }
 
     const handleSubmit = async e => {
         e.preventDefault(); 
@@ -70,11 +84,12 @@ const CharModify = (props) => {
     console.log(charactersData)
 
     return(
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className="Form__container">
+            <form className="Form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>First Name</label>
+                    <label for="name">First Name:</label>
                     <input 
+                    id="name"
                     onChange={handleChange}
                     className="form-control" 
                     type="text" 
@@ -82,8 +97,9 @@ const CharModify = (props) => {
                     defaultValue={charactersData.chars.firstName}/>
                 </div>  
                 <div className="form-group">
-                    <label>Last Name</label>
+                    <label for="lastName">Last Name:</label>
                     <input 
+                    id="lastName"
                     onChange={handleChange}
                     className="form-control" 
                     type="text" 
@@ -91,8 +107,9 @@ const CharModify = (props) => {
                     defaultValue={charactersData.chars.lastName}/>
                 </div> 
                 <div className="form-group">
-                    <label>Race</label>
+                    <label for="race">Race:</label>
                     <input 
+                    id="race"
                     onChange={handleChange}
                     className="form-control" 
                     type="text" 
@@ -100,8 +117,9 @@ const CharModify = (props) => {
                     defaultValue={charactersData.chars.race}/>
                 </div>
                 <div className="form-group">
-                    <label>Deity</label>
+                    <label for="deity">Deity:</label>
                     <input 
+                    id="deity"
                     onChange={handleChange}
                     className="form-control" 
                     type="text" 
@@ -109,8 +127,9 @@ const CharModify = (props) => {
                     defaultValue={charactersData.chars.deity}/>
                 </div>
                 <div className="form-group">
-                    <label>Gender</label>
-                    <input 
+                    <label for="gender">Gender:</label>
+                    <input
+                    id="gender" 
                     onChange={handleChange}
                     className="form-control" 
                     type="text" 
@@ -118,8 +137,9 @@ const CharModify = (props) => {
                     defaultValue={charactersData.chars.gender}/>
                 </div>
                 <div className="form-group">
-                    <label>Description</label>
+                    <label for="description">Description:</label>
                     <textarea  
+                    id="description"
                     rows="10" 
                     cols="30"
                     onChange={handleChange}
@@ -131,7 +151,7 @@ const CharModify = (props) => {
                     
                 </div>    
 
-                <button className="btn btn-primary">Save</button>
+                <button className="Save__button">Save</button>
         
             </form>
         </div>
